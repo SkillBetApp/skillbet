@@ -40,6 +40,7 @@ export default function MyChallengePage() {
 
   return (
     <div className={styles.container}>
+        <div className={styles.wrapper}>
       <h1 className={styles.heading}>My Challenges</h1>
 
       {challenges.length === 0 ? (
@@ -58,6 +59,7 @@ export default function MyChallengePage() {
           ))}
         </div>
       )}
+      </div>
     </div>
   );
 }

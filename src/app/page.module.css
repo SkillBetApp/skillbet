@@ -7,11 +7,11 @@
   }
   
   .textSecondary {
-    color: #a0aec0; /* Сірий колір для кращої читабельності на темному фоні */
+    color: #a0aec0; 
   }
   
   .bgCard {
-    background-color: rgba(255, 255, 255, 0.075); /* Трохи світліший фон для карток */
+    background-color: rgba(255, 255, 255, 0.075); 
     backdrop-filter: blur(10px);
   }
   
@@ -20,7 +20,7 @@
   }
   
   .iconPrimary {
-    color: #68d391; /* Зелений колір акценту */
+    color: #68d391; 
   }
   
   .btnPrimary {

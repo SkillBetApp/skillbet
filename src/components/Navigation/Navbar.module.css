@@ -1,0 +1,48 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: #fafafa;
+    border-bottom: 1px solid #ddd;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  
+  .left {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+  }
+  
+  .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #111;
+    text-decoration: none;
+  }
+  
+  .link {
+    font-size: 1rem;
+    color: #333;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  
+  .link:hover {
+    color: #0070f3;
+  }
+  
+  .right {
+    display: flex;
+    align-items: center;
+  }
+  
+  .walletButton {
+    background: #111 !important;
+    color: #fff !important;
+    font-weight: 500;
+    border-radius: 8px !important;
+  }
+  
