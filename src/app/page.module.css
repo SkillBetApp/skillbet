@@ -1,0 +1,43 @@
+.bgGradient {
+    background-image: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+  }
+  
+  .textPrimary {
+    color: white;
+  }
+  
+  .textSecondary {
+    color: #a0aec0; 
+  }
+  
+  .bgCard {
+    background-color: rgba(255, 255, 255, 0.075); 
+    backdrop-filter: blur(10px);
+  }
+  
+  .bgCard:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+  
+  .iconPrimary {
+    color: #68d391; 
+  }
+  
+  .btnPrimary {
+    background-color: #48bb78;
+    color: white;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btnPrimary:hover {
+    background-color: #38a169;
+  }
+  
+  .btnSecondary {
+    color: #a0aec0;
+    transition: color 0.3s ease;
+  }
+  
+  .btnSecondary:hover {
+    color: white;
+  }
