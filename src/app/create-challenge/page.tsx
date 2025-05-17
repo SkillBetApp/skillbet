@@ -11,6 +11,7 @@ interface ChallengeData {
   description: string;
   stake: string;
   image: string | null;
+  validators: string[];
 }
 
 const generateId = () => Math.random().toString(36).substring(2, 15);
@@ -25,6 +26,8 @@ export default function CreateChallengePage() {
   const [image, setImage] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [validatorsText, setValidatorsText] = useState("");
+
 
   const walletAddress = publicKey?.toBase58();
 
@@ -35,6 +38,12 @@ export default function CreateChallengePage() {
       setPreview(URL.createObjectURL(file));
     }
   };
+
+  const validators = validatorsText
+    .split("\n")
+    .map(addr => addr.trim())
+    .filter(Boolean);
+
 
   const saveChallenge = (newChallenge: ChallengeData) => {
     const raw = localStorage.getItem("challengesByWallet");
@@ -55,6 +64,12 @@ export default function CreateChallengePage() {
       return;
     }
 
+    if (validators.length % 2 === 0 || validators.length === 0) {
+      setError("Please enter an odd number of validator wallet addresses.");
+      return;
+    }
+
+
     if (!title || !description || !stake || !image) {
       setError("Please fill in all fields.");
       return;
@@ -70,6 +85,7 @@ export default function CreateChallengePage() {
         description,
         stake,
         image: imageDataUrl,
+        validators,
       };
 
       saveChallenge(newChallenge);
@@ -138,6 +154,20 @@ export default function CreateChallengePage() {
               />
               {preview && <img src={preview} alt="Preview" className={styles.previewImage} />}
             </div>
+
+            <div className={styles.formGroup}>
+              <label htmlFor="validators" className={styles.label}>
+                Validator Wallets (One per line, must be an <strong>odd number</strong>)
+              </label>
+              <textarea
+                id="validators"
+                value={validatorsText}
+                onChange={(e) => setValidatorsText(e.target.value)}
+                placeholder="Enter validator wallet addresses, one per line"
+                className={styles.textarea}
+              />
+            </div>
+
 
             <button type="submit" className={styles.submitButton}>
               Create Challenge
