@@ -17,6 +17,9 @@ export default function Navbar() {
         <Link href="/my-challenge" className={styles.link}>
           My Challenges
         </Link>
+        <Link href="/validate-challenges" className={styles.link}>
+          Validate Challenges
+        </Link>        
       </div>
       <div className={styles.right}>
         <WalletMultiButton className={styles.walletButton} />

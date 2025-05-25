@@ -3,14 +3,7 @@
 import { useEffect, useState } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import styles from "./my-challenge.module.css";
-
-interface ChallengeData {
-  id: string;
-  title: string;
-  description: string;
-  stake: string;
-  image: string | null;
-}
+import { ChallengeData } from "@/types";
 
 export default function MyChallengePage() {
   const { publicKey } = useWallet();
