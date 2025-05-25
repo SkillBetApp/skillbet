@@ -3,17 +3,7 @@
 import { useEffect, useState } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useRouter } from "next/navigation";
-
-interface ChallengeData {
-  id: string;
-  title: string;
-  description: string;
-  stake: string;
-  image: string | null;
-  validators: string[];
-  approvedBy?: string[];
-  owner: string;
-}
+import { ChallengeData, StoredChallenges } from "@/types";
 
 export default function ValidateChallengesPage() {
   const { publicKey } = useWallet();
@@ -27,7 +17,7 @@ export default function ValidateChallengesPage() {
     const raw = localStorage.getItem("challengesByWallet");
     if (!raw) return;
 
-    const all = JSON.parse(raw);
+    const all: StoredChallenges = JSON.parse(raw);
     const allChallenges: ChallengeData[] = Object.values(all).flat();
 
     const relevant = allChallenges.filter(
@@ -45,7 +35,7 @@ export default function ValidateChallengesPage() {
     const raw = localStorage.getItem("challengesByWallet");
     if (!raw) return;
 
-    const all = JSON.parse(raw);
+    const all: StoredChallenges = JSON.parse(raw);
     let updated = false;
 
     for (const owner in all) {

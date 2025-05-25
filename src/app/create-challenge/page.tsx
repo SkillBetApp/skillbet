@@ -4,15 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useWallet } from "@solana/wallet-adapter-react";
 import styles from "./create-challenge.module.css";
-
-interface ChallengeData {
-  id: string;
-  title: string;
-  description: string;
-  stake: string;
-  image: string | null;
-  validators: string[];
-}
+import { ChallengeData } from "@/types";
 
 const generateId = () => Math.random().toString(36).substring(2, 15);
 
@@ -86,6 +78,7 @@ export default function CreateChallengePage() {
         stake,
         image: imageDataUrl,
         validators,
+        owner: publicKey?.toString()!,
       };
 
       saveChallenge(newChallenge);
