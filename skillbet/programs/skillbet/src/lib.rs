@@ -47,6 +47,10 @@ pub mod skillbet_challenge {
 }
 
     pub fn vote(ctx: Context<Vote>, approve: bool) -> Result<()> {
+    require!(
+        ctx.accounts.challenge.status == ChallengeStatus::Pending,
+        ChallengeError::ChallengeCompleted
+    );
         let challenge = &mut ctx.accounts.challenge;
         let voter = ctx.accounts.validator.key();
 
@@ -72,10 +76,22 @@ pub mod skillbet_challenge {
             challenge.status = ChallengeStatus::Rejected;
         }
 
+        if challenge.status == ChallengeStatus::Rejected {
+   
+        let reward_per_validator = challenge.stake_amount / challenge.validators.len() as u64;
+        for validator in &challenge.validators {
+        
+        }
+}
+
         Ok(())
     }
 
     pub fn resolve_challenge(ctx: Context<ResolveChallenge>) -> Result<()> {
+        require!(
+        ctx.accounts.creator.key() == ctx.accounts.challenge.creator,
+        ChallengeError::Unauthorized
+    );
     let challenge = &mut ctx.accounts.challenge;
     
     require!(
@@ -111,6 +127,7 @@ pub mod skillbet_challenge {
 
 #[derive(Accounts)]
 pub struct ResolveChallenge<'info> {
+    #[account(mut, close = creator)] 
     #[account(mut)]
     pub challenge: Account<'info, Challenge>,
     #[account(mut)]
@@ -127,7 +144,10 @@ pub struct CreateChallenge<'info> {
     pub challenge: Account<'info, Challenge>,
     #[account(mut)]
     pub creator: Signer<'info>,   
-    #[account(mut)]
+    #[account(
+        mut,
+        constraint = stake_account.lamports() >= stake_amount @ ChallengeError::InsufficientFunds
+    )]
     pub stake_account: UncheckedAccount<'info>,
     pub system_program: Program<'info, System>,
 }
@@ -149,6 +169,8 @@ pub struct Challenge {
     pub rejections: Vec<Pubkey>,
     pub status: ChallengeStatus,
     pub stake_account: Pubkey, 
+    pub created_at: i64,
+    pub timeout: i64,
 }
 
 impl Challenge {
@@ -162,10 +184,32 @@ pub enum ChallengeStatus {
     Rejected,
 }
 
+#[event]
+pub struct ChallengeCreated {
+    pub challenge: Pubkey,
+    pub creator: Pubkey,
+    pub stake_amount: u64,
+}
+
+#[event]
+pub struct ChallengeResolved {
+    pub challenge: Pubkey,
+    pub status: ChallengeStatus,
+    pub payout_amount: u64,
+}
+
 #[error_code]
 pub enum ChallengeError {
     #[msg("You are not a validator for this challenge.")]
     NotAValidator,
     #[msg("Challenge voting is not yet completed.")]
     ChallengeNotCompleted,
+    #[msg("Insufficient funds in stake account")]
+    InsufficientFunds,
+    #[msg("Unauthorized action")]
+    Unauthorized,
+    #[msg("Challenge has already been completed")]
+    ChallengeCompleted,
+    #[msg("Challenge has expired")]
+    ChallengeExpired,
 }
