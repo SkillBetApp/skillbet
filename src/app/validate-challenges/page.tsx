@@ -71,20 +71,20 @@ export default function ValidateChallengesPage() {
       ) : (
         <ul className="space-y-6">
           {challenges.map((challenge) => (
-            <li key={challenge.id} className="border rounded p-4 shadow-sm">
-              <h2 className="text-xl font-semibold">{challenge.title}</h2>
+            <li key={challenge.id} className="border rounded p-4 shadow-sm bg-white">
+              <h2 className="text-xl font-semibold mb-2">{challenge.title}</h2>
               <p className="text-sm text-gray-600 mb-2">{challenge.description}</p>
-              <p className="text-sm">Stake: {challenge.stake} SOL</p>
+              <p className="text-sm font-medium mb-2">Stake: {challenge.stake} SOL</p>
               {challenge.image && (
                 <img
                   src={challenge.image}
                   alt="Challenge"
-                  className="w-full h-auto rounded my-2"
+                  className="w-full h-auto rounded my-2 max-h-[300px] object-cover"
                 />
               )}
               <button
                 onClick={() => handleApprove(challenge.id)}
-                className="mt-2 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition"
+                className="mt-2 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition w-full sm:w-auto"
               >
                 Approve
               </button>

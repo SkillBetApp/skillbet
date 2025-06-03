@@ -82,3 +82,33 @@
     font-size: 0.9rem;
     margin-top: 0.5rem;
   }
+
+  @media (max-width: 768px) {
+    .container {
+      padding: 1rem;
+    }
+
+    .formContainer {
+      padding: 1.5rem;
+    }
+
+    .heading {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .formGroup {
+      margin-bottom: 1rem;
+    }
+
+    .input,
+    .textarea {
+      padding: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .submitButton {
+      padding: 0.75rem;
+      font-size: 1rem;
+    }
+  }

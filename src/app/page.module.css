@@ -41,3 +41,26 @@
   .btnSecondary:hover {
     color: white;
   }
+
+  @media (max-width: 768px) {
+    .container {
+      padding: 1rem;
+    }
+
+    .heading {
+      font-size: 2rem;
+    }
+
+    .buttonGroup {
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .buttonGroup button {
+      width: 100%;
+    }
+
+    .featureCard {
+      padding: 1.5rem;
+    }
+  }
