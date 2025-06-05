@@ -5,7 +5,7 @@ export interface ChallengeData {
   stake: string;
   image: string | null;
   validators: string[];
-  approvedBy?: string[];
+  approved_by?: string[];
   owner: string;
 }
 

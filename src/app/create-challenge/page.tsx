@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useWallet } from "@solana/wallet-adapter-react";
 import styles from "./create-challenge.module.css";
 import { ChallengeData } from "@/types";
+import { supabase } from "@/utils/supabase/client";
 
 const generateId = () => Math.random().toString(36).substring(2, 15);
 
@@ -19,6 +20,7 @@ export default function CreateChallengePage() {
   const [preview, setPreview] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [validatorsText, setValidatorsText] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
 
   const walletAddress = publicKey?.toBase58();
@@ -36,58 +38,74 @@ export default function CreateChallengePage() {
     .map(addr => addr.trim())
     .filter(Boolean);
 
-
-  const saveChallenge = (newChallenge: ChallengeData) => {
-    const raw = localStorage.getItem("challengesByWallet");
-    const all = raw ? JSON.parse(raw) : {};
-
-    const walletChallenges = all[walletAddress!] || [];
-    walletChallenges.push(newChallenge);
-    all[walletAddress!] = walletChallenges;
-
-    localStorage.setItem("challengesByWallet", JSON.stringify(all));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
     if (!walletAddress) {
       setError("Wallet not connected.");
+      setIsSubmitting(false);
       return;
     }
 
     if (validators.length % 2 === 0 || validators.length === 0) {
       setError("Please enter an odd number of validator wallet addresses.");
+      setIsSubmitting(false);
       return;
     }
 
-
     if (!title || !description || !stake || !image) {
       setError("Please fill in all fields.");
+      setIsSubmitting(false);
       return;
     }
     setError(null);
 
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      const imageDataUrl = reader.result as string;
-      const newChallenge: ChallengeData = {
-        id: generateId(),
+    try {
+      
+      const imagePath = `challenges/${generateId()}-${image.name}`;
+      const { data: uploadData, error: uploadError } = await supabase
+        .storage
+        .from('challenges')
+        .upload(imagePath, image);
+
+      if (uploadError) throw uploadError;
+
+      
+      const { data: urlData } = supabase
+        .storage
+        .from('challenges')
+        .getPublicUrl(imagePath);
+
+      const newChallenge = {
         title,
         description,
-        stake,
-        image: imageDataUrl,
+        stake: parseFloat(stake),
+        image: urlData.publicUrl,
         validators,
-        owner: publicKey?.toString()!,
+        owner: walletAddress,
       };
 
-      saveChallenge(newChallenge);
+      
+      const response = await fetch('/api/challenges', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newChallenge),
+      });
 
-      alert("Challenge created and saved!");
+      if (!response.ok) {
+        throw new Error('Failed to create challenge');
+      }
+
+      alert("Challenge created successfully!");
       router.push("/my-challenge");
-    };
-
-    reader.readAsDataURL(image);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to create challenge");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (

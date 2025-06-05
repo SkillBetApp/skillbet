@@ -10,17 +10,33 @@ export default function MyChallengePage() {
   const [challenges, setChallenges] = useState<ChallengeData[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (!publicKey) return;
+    useEffect(() => {
+    const fetchChallenges = async () => {
+      if (!publicKey) {
+        setLoading(false);
+        return;
+      }
 
-    const walletAddress = publicKey.toBase58();
-    const raw = localStorage.getItem("challengesByWallet");
-    if (raw) {
-      const all = JSON.parse(raw);
-      const walletChallenges = all[walletAddress] || [];
-      setChallenges(walletChallenges);
-    }
-    setLoading(false);
+      try {
+        const walletAddress = publicKey.toBase58();
+        const response = await fetch(`/api/challenges?walletAddress=${walletAddress}`);
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch challenges');
+        }
+
+        const data = await response.json();
+        
+        const myChallenges = data.filter((ch: ChallengeData) => ch.owner === walletAddress);
+        setChallenges(myChallenges);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchChallenges();
   }, [publicKey]);
 
   if (!publicKey) {

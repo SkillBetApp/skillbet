@@ -8,15 +8,7 @@ export default function Home() {
         <h1 className="text-6xl font-bold mb-6 tracking-tight">🎯 Skillbet</h1>
         <p className={`text-xl ${styles.textSecondary} mb-10 leading-relaxed`}>
           Bet crypto on your learning goals. Complete your challenge and earn back your stake — <span className={styles.iconPrimary}>+</span> a bonus.
-        </p>
-        <div className="flex justify-center gap-6">
-          <button className={`${styles.btnPrimary} font-semibold rounded-lg px-8 py-4 shadow-md`}>
-            Start a Challenge
-          </button>
-          <button className={`${styles.btnSecondary} font-semibold`}>
-            Explore Challenges
-          </button>
-        </div>
+        </p>        
       </section>
       <section className="max-w-lg mx-auto mt-20 space-y-8">
         <FeatureCard
