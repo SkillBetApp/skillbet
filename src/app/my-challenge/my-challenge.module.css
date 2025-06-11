@@ -100,3 +100,139 @@
     }
   }
   
+  .validatorsSection {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+}
+
+.sectionTitle {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: #666;
+}
+
+.validatorList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.validatorItem {
+  font-size: 0.9rem;
+  color: #0f0c29;
+  margin-bottom: 0.3rem;
+  word-break: break-all;
+}
+
+.approved {
+  color: #4CAF50;
+  margin-left: 0.5rem;
+}
+
+.pending {
+  color: #FF9800;
+  margin-left: 0.5rem;
+}
+
+.completeButton {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  margin-top: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.completeButton:hover {
+  background-color: #45a049;
+}
+
+.celebration {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(76, 175, 80, 0.9);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  z-index: 10;
+  animation: fadeIn 0.5s;
+}
+
+.congrats {
+  color: white;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.successMessage {
+  color: white;
+  font-size: 1.2rem;
+}
+
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: #f0f;
+  animation: confettiFall 5s linear infinite;
+}
+
+.confetti:nth-child(1) {
+  left: 10%;
+  background-color: #f0f;
+  animation-delay: 0s;
+}
+
+.confetti:nth-child(2) {
+  left: 30%;
+  background-color: #0ff;
+  animation-delay: 1s;
+}
+
+.confetti:nth-child(3) {
+  left: 50%;
+  background-color: #ff0;
+  animation-delay: 2s;
+}
+
+.confetti:nth-child(4) {
+  left: 70%;
+  background-color: #f00;
+  animation-delay: 3s;
+}
+
+.confetti:nth-child(5) {
+  left: 90%;
+  background-color: #0f0;
+  animation-delay: 4s;
+}
+
+@keyframes confettiFall {
+  0% {
+    top: -10px;
+    transform: rotate(0deg);
+  }
+  100% {
+    top: 100%;
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.card {
+  position: relative;
+  overflow: hidden;
+}

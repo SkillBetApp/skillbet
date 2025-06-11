@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const walletAddress = searchParams.get("walletAddress");
-    console.log(walletAddress)
+   
   if (!walletAddress) {
     return NextResponse.json({ error: "Wallet address is required" }, { status: 400 });
   }
